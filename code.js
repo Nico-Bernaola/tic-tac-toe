@@ -1,5 +1,5 @@
 //Module pattern for the Game Board
-const board = ['', '', '', '', '', '', '', '', ''];  
+let board = ['', '', '', '', '', '', '', '', ''];  
 let turno = false;
 const winConditions = [
   [0, 1, 2],
@@ -15,7 +15,7 @@ const winConditions = [
 let winner = '';
 
 function getTurno() {
-  return turno ? 'O' : 'X';
+  return   turno ? 'O' : 'X';;
 }
 
 let gameBoard = (function() {
@@ -34,30 +34,38 @@ let gameBoard = (function() {
 
     
     createMatriz();
-    
+
+
+    showTurn('X');
 })();
 
 const field = document.querySelector('.field')
 
 function changeValue(elemento,position){
-  if(elemento.innerHTML == ''){
+  if(elemento.innerHTML == '' && winner == ''){
     let valor = getTurno()
     elemento.innerHTML = valor;
     board[position] = valor;
     turno = !turno;
+    showTurn(getTurno());
   }
   validateWinner();
-  console.log(elemento)
+}
+
+
+function showTurn(valor){
+  let turn = document.querySelector('#message');
+  turn.innerHTML = `Player (${valor}) it's your TURN`
 }
 
 function validateWinner(){
   winConditions.forEach((condition) => {
-    console.log(board)
       if(validateGame(board[condition[0]], board[condition[1]], board[condition[2]])){
-        console.log(board)
         if(board[condition[0]] != ''){
           winner = board[condition[0]];
           console.log('winner ' + winner);
+          let turn = document.querySelector('#message');
+          turn.innerHTML = `Player (${winner}) WIN`
         }
   
       }
@@ -66,7 +74,7 @@ function validateWinner(){
 
 function validateGame(pos1,pos2,pos3){
   if(pos1.length > 0 && pos2.length > 0 && pos3.length > 0){
-    if(pos1 === pos2 === pos3){
+    if(pos1 == pos2 && pos2 == pos3 && pos1 == pos3){
       return true;
     }
   }
@@ -81,26 +89,14 @@ function createMatriz(){
 }
 
 function deleteMatriz(){
-  board.forEach((e,index) => {
-    //let item = `<div class="field" onclick="changeValue(${index})">${e}</div>`
-    $('.gameboard').remove("div");
+  let itemsFields  = document.querySelectorAll('.field');
+  itemsFields.forEach((field)=> {
+    field.innerHTML = '';
   })
+  board =  ['', '', '', '', '', '', '', '', ''];
+  winner = '';
+  showTurn(getTurno());
 }
 
-const matriz = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null]
-]
 
-
-  
-
-
-
-//Factory Function for the players
-const players = (playerName, index) => {
-  const tuNombre = () => console.log(`Player name is: ${playerName}`)
-  return { playerName, index, tuNombre }
-};
 
