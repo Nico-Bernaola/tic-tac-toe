@@ -1,4 +1,3 @@
-//Module pattern for the Game Board
 let board = ['', '', '', '', '', '', '', '', ''];  
 let turno = false;
 const winConditions = [
@@ -65,7 +64,7 @@ function validateWinner(){
           winner = board[condition[0]];
           console.log('winner ' + winner);
           let turn = document.querySelector('#message');
-          turn.innerHTML = `Player (${winner}) WIN`
+          turn.innerHTML = `Player (${winner}) WON, PLAY AGAIN`
         }
   
       }
